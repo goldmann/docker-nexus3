@@ -71,12 +71,16 @@ RUN curl -L https://www.getchef.com/chef/install.sh | bash \
     && rm -rf /etc/chef \
     && rm -rf /opt/chefdk \
     && rm -rf /var/cache/yum \
-    && rm -rf /var/chef
+    && rm -rf /var/chef \
+    && chown -R jboss:root ${SONATYPE_DIR}/nexus \
+    && chmod -R g+rwX ${SONATYPE_DIR}/nexus \
+    && chown -R jboss:root ${NEXUS_DATA} \
+    && chmod -R g+rwX ${NEXUS_DATA}
 
 VOLUME ${NEXUS_DATA}
 
 EXPOSE 8081
-USER nexus
+USER 200
 
 ENV INSTALL4J_ADD_VM_PARAMS="-Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
 
